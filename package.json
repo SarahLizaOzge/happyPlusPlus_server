@@ -1,0 +1,28 @@
+{
+  "name": "happyPlusPlus",
+  "version": "1.0.0",
+  "description": "301 Final",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SarahLizaOzge/happyPlusPlus_server.git"
+  },
+  "author": "ozge sarah liza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SarahLizaOzge/happyPlusPlus_server/issues"
+  },
+  "homepage": "https://github.com/SarahLizaOzge/happyPlusPlus_server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "page": "^1.7.1",
+    "pg": "^7.4.0"
+  }
+}
