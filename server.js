@@ -23,8 +23,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-app.get('/test', (req, res) => res.send('hello world'));
+//app.get('/test', (req, res) => res.send('hello world'));
 
 
-app.all('*', (req, res) => res.redirect('/test'));
+app.all('*', (req, res) => res.redirect(CLIENT_URL));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
