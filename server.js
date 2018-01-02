@@ -24,6 +24,19 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //app.get('/test', (req, res) => res.send('hello world'));
 
+app.get('/api/v1/users', (req, res) => {
+    client.query('SELECT username, password, email FROM books;')
+    .then(results => res.send(results.rows))
+    .catch(console.error)
+  });
+
+app.post('/api/v1/users', (request, response) => {
+    client.query(
+      'INSERT INTO users (username, password, email) VALUES ($1, $2,$3);',
+      [request.body.username, request.body.password, request.body.email])
+    .then(results => response.send(201))
+    .catch(console.error)
+  });
 
 app.all('*', (req, res) => res.redirect(CLIENT_URL));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
