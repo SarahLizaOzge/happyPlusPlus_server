@@ -66,9 +66,9 @@ app.put('/api/v1/users/:username', (req, res) => {
     .catch(console.error)
   })
 
-app.delete('/api/v1/users', (request, response) => {
+app.delete('/api/v1/users/:username', (request, response) => {
     client.query(
-        'DELETE FROM users WHERE user_id=$3', [req.params.id])
+        'DELETE FROM users WHERE username=$1', [req.params.username])
         .then(() => res.sendStatus(204))
         .catch(err => {
           console.error(err);
