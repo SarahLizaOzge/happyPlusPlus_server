@@ -57,7 +57,7 @@ app.post('/api/v1/users', (request, response) => {
     .catch(console.error)
   });
 
-  app.put('/api/v1/users/:username', (req, res) => {
+app.put('/api/v1/users/:username', (req, res) => {
     client.query(`
       UPDATE users
       SET email=$2
@@ -65,7 +65,16 @@ app.post('/api/v1/users', (request, response) => {
     .then(() => res.sendStatus(204))
     .catch(console.error)
   })
-  
+
+app.delete('/api/v1/users', (request, response) => {
+    client.query(
+        'DELETE FROM users WHERE user_id=$3', [req.params.id])
+        .then(() => res.sendStatus(204))
+        .catch(err => {
+          console.error(err);
+          res.status(400).send('Bad Request; User ID does not exist');
+        });
+    });
 
 app.all('*', (req, res) => res.redirect(CLIENT_URL));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
