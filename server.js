@@ -51,18 +51,6 @@ superagent.get(url)
 
 
 
-//my pseudo code:
-// app.get('/api/v1/motivation', (req,res) => {
-//    //go here: 
-//    api.query(
-//        url = `https://www.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=motivation+ted+talk&type=video&videoDefinition=high&key=${YOUTUBE_API_KEY}`
-//    ).then(result=>response.send(result.items))//where does this go? I want to send it to the client, and then pull the key value pairs I want from it, in order to render videos to page
-//    .then(console.log('you reached api get route, your gettin videos'))
-//    .catch(console.error)
-//  });
-
-
-
 //app.get('/test', (req, res) => res.send('hello world'));
 
 
