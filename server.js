@@ -24,11 +24,30 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //app.get('/test', (req, res) => res.send('hello world'));
 
-app.get('/api/v1/users', (req, res) => {
-    client.query('SELECT username, password, email FROM books;')
+app.get('/api/v1/users/:id', (req, res) => {
+    console.log(req.params.id);
+    client.query('SELECT * FROM users where username =$1', [req.params.id])
     .then(results => res.send(results.rows))
     .catch(console.error)
-  });
+});
+
+app.get('/api/v1/login', (req, res) => {
+    client.query('SELECT password FROM users where username =$1', [req.query.username])
+    .then(result => {
+        if (result.rowCount === 0){
+            console.log('user is not found');
+            res.send(404);
+        } 
+        else if (result.rows[0]['password'] === req.query.password){
+            console.log('User is logged-in');
+            res.send(201);
+        }else{
+            console.log('User password is incorrect');
+            res.send(404);
+        }
+    })
+    .catch(console.error)
+});
 
 app.post('/api/v1/users', (request, response) => {
     client.query(
@@ -37,6 +56,16 @@ app.post('/api/v1/users', (request, response) => {
     .then(results => response.send(201))
     .catch(console.error)
   });
+
+  app.put('/api/v1/users/:username', (req, res) => {
+    client.query(`
+      UPDATE users
+      SET email=$2
+      WHERE username=$1`,[req.params.username , req.body.email])
+    .then(() => res.sendStatus(204))
+    .catch(console.error)
+  })
+  
 
 app.all('*', (req, res) => res.redirect(CLIENT_URL));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
