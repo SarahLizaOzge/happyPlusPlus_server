@@ -32,21 +32,19 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/api/v1/videos/search', (req, res) => {
     let url = 'https://www.googleapis.com/youtube/v3/search';
+
+    console.log('made it')
     
 superagent.get(url)
-    // .query({ 'q': query })
     .query({ 'part': req.query.part })
     .query({'order':req.query.order})
     .query({'q':req.query.q})
     .query({'type':req.query.type})
     .query({ 'videoDefinition': req.query.videoDefinition })
-    .query({ 'key': API_KEY })
-    // .then(response => response.responseJSON.items.map((video, idx) => {
-         
-    // }))
+    .query({ 'key': YOUTUBE_API_KEY })
     .then(arr => {
         console.log(arr)
-        res.send(arr)
+        res.send(JSON.parse(arr.text))
     })
     .catch(console.error)
 })
