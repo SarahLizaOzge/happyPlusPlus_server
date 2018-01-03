@@ -60,6 +60,7 @@ app.get('/api/v1/users/:id', (req, res) => {
     .catch(console.error)
 });
 
+
 app.get('/api/v1/login', (req, res) => {
     client.query('SELECT password FROM users where username =$1', [req.query.username])
     .then(result => {
@@ -95,6 +96,14 @@ app.put('/api/v1/users/:username', (req, res) => {
     .catch(console.error)
   })
 
+//   app.get('/api/v1/Userfavorites/:username', (req, res) => {
+//     console.log(req.params.id);
+//     client.query('SELECT * FROM Userfavorites where username =$1', [req.params.username])
+//     .then(results => res.send(results.rows))
+//     .catch(console.error)
+// });
+
+
 app.delete('/api/v1/users/:username', (req, res) => {
     client.query(
         'DELETE FROM users WHERE username=$1', [req.params.username])
@@ -104,20 +113,27 @@ app.delete('/api/v1/users/:username', (req, res) => {
           res.status(400).send('Bad Request; User ID does not exist');
         });
     });
-
+    
+app.get('/api/v1/addToFavorites', (req, res) => {
+    console.log(req.params.username);
+    client.query('SELECT * FROM Userfavorites where username =$1',)
+    .then(results => res.send(results.rows))
+    .catch(console.error)
+});
 app.post('/api/v1/addToFavorites', (req,res) =>{
     console.log('ADD TO FAVORITES IS CALLED');
     let result;
     client.query('SELECT FROM videos WHERE video_url=$1', [req.body.video_url])
     .then(result => result);
     console.log(result);
-    if(result ===undefined || result.length === 0){
+    if(result === undefined || result.length === 0){
         client.query('INSERT INTO videos VALUES($1, $2, $3, $4)', [req.body.video_url, req.body.videoid, req.body.description, req.body.title]);
     }
     client.query('INSERT INTO Userfavorites (video_url, username) VALUES ($1, $2)', [req.body.video_url, req.body.username])
     .then(()=>res.sendStatus(204))
     .catch(console.error)
 })
+
 
 app.all('*', (req, res) => res.redirect(CLIENT_URL));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
