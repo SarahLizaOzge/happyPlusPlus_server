@@ -124,5 +124,16 @@ app.post('/api/v1/addToFavorites', (req,res) =>{
      .catch(console.error)
 
  });
+
+ app.delete('/api/v1/deleteFavorite', (req, res) => {
+    client.query(
+        'DELETE FROM userfavorites WHERE video_url=$1', [req.body.video_url])
+        .then(console.log('this is our delete request' , req.body))
+        .then(() => res.sendStatus(204))
+        .catch(err => {
+          console.error(err);
+          res.status(400).send('Bad Request; video does not exist');
+        });
+    });
 app.all('*', (req, res) => res.redirect(CLIENT_URL));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
