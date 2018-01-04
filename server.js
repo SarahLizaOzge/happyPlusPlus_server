@@ -117,7 +117,12 @@ app.post('/api/v1/addToFavorites', (req,res) =>{
     client.query('INSERT INTO Userfavorites (video_url, username) VALUES ($1, $2)', [req.body.video_url, req.body.username])
     .then(()=>res.sendStatus(204))
     .catch(console.error)
-})
+});
+ app.get('/api/v1/favorites/:username',(req,res) =>{
+     client.query('SELECT video_url FROM userfavorites where username = $1',[req.params.username])
+     .then(results => res.send(results.rows))
+     .catch(console.error)
 
+ });
 app.all('*', (req, res) => res.redirect(CLIENT_URL));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
