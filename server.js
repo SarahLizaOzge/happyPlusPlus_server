@@ -112,9 +112,9 @@ app.post('/api/v1/addToFavorites', (req,res) =>{
     .then(result => result);
     console.log(result);
     if(result ===undefined || result.length === 0){
-        client.query('INSERT INTO videos VALUES($1, $2, $3, $4)', [req.body.video_url, req.body.videoid, req.body.description, req.body.title]);
+        client.query('INSERT INTO videos VALUES($1, $2, $3, $4) ON CONFLICT DO NOTHING', [req.body.video_url, req.body.videoid, req.body.description, req.body.title]);
     }
-    client.query('INSERT INTO Userfavorites (video_url, username) VALUES ($1, $2)', [req.body.video_url, req.body.username])
+    client.query('INSERT INTO Userfavorites (video_url, username) VALUES ($1, $2) ON CONFLICT DO NOTHING', [req.body.video_url, req.body.username])
     .then(()=>res.sendStatus(204))
     .catch(console.error)
 });
