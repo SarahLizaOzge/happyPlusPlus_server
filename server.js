@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // API Endpoints
 
 app.get('/api/v1/videos/search', (req, res) => {
-    let url = 'https://www.googleapis.com/youtube/v3/search';
+    let url = '//www.googleapis.com/youtube/v3/search';
 
     console.log('made it')
     
